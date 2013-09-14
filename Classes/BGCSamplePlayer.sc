@@ -1,4 +1,5 @@
 //bgc
+
 BGCSamplePlayer {
 
 	var <>window, //the window...
@@ -9,17 +10,18 @@ BGCSamplePlayer {
 	<>bufferList, //list of buffers with the soundfiles
 	<>player, //the synth
 	<>slider, //rate slider
-	<>volSlider,
+	<>volSlider, //Volume slider
 	<>slideCtl, //ControlSpec for slider
 	<>speedText, //number box to display the slider values (after ControlSpec map)
-	<>s,
+	<>s, //Server
 	<>meter, //Volume meter
-	<> oscr;
+	<> oscr; //OSC responder
+
 	*new {
 		^super.new.init;
 	}
 
-	init { |position = "BGC", s = Server.local|
+	init { arg position = "BGC", s = Server.local;
 		this.position = position;
 		this.s = s;
 		this.bufferList = List.new();
@@ -162,7 +164,7 @@ BGCSamplePlayer {
 
 
 
-//Method to setup OSCResponder.
+	//Method to setup OSCResponder.
 	setOSCResponders {
 
 		this.oscr = OSCresponder(this.s.addr,'/tr',{ |time,responder,msg|
@@ -183,7 +185,7 @@ BGCSamplePlayer {
 						this.meter.peakLevel = msg[4].ampdb.linlin(-40, 0, 0, 1);
 					}.defer
 				}
-		/*	{1}	{ this.beatOneOSCAction }
+			/*	{1}	{ this.beatOneOSCAction }
 			{2}	{ this.crotchetOSCAction }
 			{3}	{ this.quaverOSCAction }
 			{4}	{
@@ -205,23 +207,19 @@ BGCSamplePlayer {
 						{onsetLED.value = 0}.defer ;
 					}.fork
 				};
-*/
-		}).add;
-
-	}
-
-setSynthDefs {
-	SynthDef(\playBufStereo, {| out = 0, bufnum = 0, rate = 1 , vol = 1|
-		var scaledRate, player, imp, delimp;
-		scaledRate = BufRateScale.kr(bufnum);
-		player = PlayBuf.ar(1, bufnum, scaledRate * rate, loop: 1, doneAction:0);
-		imp = Impulse.kr(10);
-		delimp = Delay1.kr(imp);
-		SendReply.kr(imp, '/tr', [Amplitude.kr(player*vol), K2A.ar(Peak.ar(player*vol, delimp).lag(0, 3))], 0);
-		Out.ar(out, [player*vol, player*vol])
+			*/
 		}).add;
 	}
 
-
-
+	setSynthDefs {
+		SynthDef(\playBufStereo, {arg out = 0, bufnum = 0, rate = 1 , vol = 1;
+			var scaledRate, player, imp, delimp;
+			scaledRate = BufRateScale.kr(bufnum);
+			player = PlayBuf.ar(1, bufnum, scaledRate * rate, loop: 1, doneAction:0);
+			imp = Impulse.kr(10);
+			delimp = Delay1.kr(imp);
+			SendReply.kr(imp, '/tr', [Amplitude.kr(player*vol), K2A.ar(Peak.ar(player*vol, delimp).lag(0, 3))], 0);
+			Out.ar(out, [player*vol, player*vol])
+		}).add;
+	}
 }
