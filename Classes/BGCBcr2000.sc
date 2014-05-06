@@ -4,6 +4,7 @@
  * based on the NanoKontrol.sc by jesusgollonet (http://github.com/jesusgollonet/NanoKontrol.sc/)
  */
 
+
 BCR2000 {
 
 	var topButtons1,
@@ -13,7 +14,9 @@ BCR2000 {
 			knobsRow1,
 			knobsRow2,
 			knobsRow3;
+
 	var <controllers;
+
 	*new{
 		^super.new.initBCR2000;
 	}
@@ -44,4 +47,99 @@ BCR2000 {
 			knobsRow2,
 			knobsRow3);
 	}
+
+
+  removeAll{
+    controllers.do{|cDict|
+      cDict.do{|c| c.free}
+    }
+  }
+
+  doesNotUnderstand {|selector ... args|
+    var controller = controllers[selector];
+    ^controller ?? {
+      super.doesNotUnderstand(selector, args)
+    };
+  }
+}
+
+
+BCR2000Controller {
+
+  var <key, <num;
+  var responder;
+
+  *new{|... args|
+    ^super.newCopyArgs(*args);
+  }
+
+  onChanged_{|action|
+    responder= MIDIdef.cc(key, {|val| action.value(val) }, num);
+  }
+
+  free{
+    responder.free;
+  }
+}
+
+
+BCR2000ControllerNote {
+
+  var <key, <num;
+  var responder;
+
+  *new{|... args|
+    ^super.newCopyArgs(*args);
+  }
+
+  onChanged_{|action|
+    responder= MIDIdef.noteOn(key, {|val| action.value(val) }, num);
+  }
+
+  free{
+    responder.free;
+  }
+}
+
+
+//the R8 buttons send cc events
+BCR2000Button : BCR2000Controller {
+
+  var responder;
+
+  onChanged_{|action|
+    responder= MIDIdef.cc(
+      (key).asSymbol, {
+        |val|
+        action.value(val)
+      },
+      num);
+  }
+
+/*  onRelease_{|action|
+    releaseresp= MIDIdef.noteOff((key++"release").asSymbol, {|val| if(val==0, { action.value(val) }) }, num);
+  }
+*/
+  free{
+    responder.free;
+  }
+}
+
+
+//the R8 buttons send cc events
+BCR2000Knob : BCR2000Controller {
+
+  var responder;
+
+  onChanged_{|action|
+    responder= MIDIdef.cc((key).asSymbol, {|val| action.value(val)  }, num);
+  }
+
+/*  onRelease_{|action|
+    releaseresp= MIDIdef.noteOff((key++"release").asSymbol, {|val| if(val==0, { action.value(val) }) }, num);
+  }
+*/
+  free{
+    responder.free;
+  }
 }
