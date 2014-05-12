@@ -2,10 +2,11 @@
 
 (s.reboot;)//restart
 
+
 (s.makeGui;)//show Server Window
 
 (s.scope;)//Show Scope
-
+(s.plotTree;)
 /*
 SynthDef(\name, {
 		arg out = 0, //Output
@@ -68,7 +69,8 @@ Podemos criar um dictionary com os cents para os intervalos e os nomes...
 ~snd3.play();
 ~snd3.free();
 
-~snd3.set(\note, ~notesFreq.at("D4"));
+~snd3.set(\note, ~notesFreq.at("C4"));
+
 
 (
 SynthDef("pulsestream", {
@@ -95,6 +97,156 @@ SynthDef("pulsestream", {
 	}
 };
 )
+
+/*
+
+TEM BUG!
+
+(
+SynthDef("test", {
+	var sig = Impulse.ar(1);
+	var count = 0;
+	Select.kr(sig > 0, [{"fostes".postln;count = count+1; count.postln;}, {0}]);
+
+//	if(sig > 0, { count = count+1; count.postln}, { false; });
+
+	Out.ar(0,
+		Impulse.ar(1);
+	);
+}).add;
+)
+
+~snd5 = Synth("test");
+
+~snd5.free();
+*/
+
+
+/*
+500.ratiomidi;
+(4/3).ratiomidi.ceil;
+*/
+
+(
+var f = {
+	arg freq = 0, octave = 1;
+	if(freq > 0 ,
+		{
+			freq*(2.pow(octave));
+		},
+		{
+			0;
+		}
+	);
+};
+
+f.value(440,2);
+)
+
+
+(
+SynthDef(\twoPulses, {
+
+	arg pan = 0,
+			amp = 1,
+			mix = 0.75,
+			room = 0.95,
+			damp = 0.25,
+			release_dur = 5,
+			gate = 1;
+	var env, sound;
+	env = EnvGen.kr(Env.asr(0.01, amp, release_dur), gate, doneAction:2);
+	sound = FreeVerb.ar(
+		Pan2.ar(
+			Impulse.ar(0), pan, amp
+		),
+		mix,
+		room,
+		damp
+	);
+
+	Out.ar(0,
+		sound * env
+	);
+
+
+
+}).add;
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+(
+
+t = Task({
+    var a;
+    a =  Synth.new(\twoPulses, [\release_dur, 5, \amp, 1, \gate, 1]);
+    3.wait;
+    a.set(\gate, 0);
+   });
+
+)
+
+
+   t.start;
+
+
+
+
+/*
+
+(
+SynthDef(\sines, {arg out = 0, release_dur, gate =1, amp = 0.2;
+    var sines, env;
+    env = EnvGen.kr(Env.asr(0.01, amp, release_dur), gate, doneAction:2);
+    sines = SinOsc.ar(852, 0, 2.2)+SinOsc.ar(1633, 0, 2.2);
+    Out.ar(out, sines * env);
+}).add
+
+)
+
+(
+
+t = Task({
+    var a;
+    a =  Synth.new(\sines, [\release_dur, 5, \out, 0, \amp, 0.2, \gate, 1]);
+    1.wait;
+    a.set(\gate, 0);
+   });
+
+)
+
+
+   t.start;
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 (
 //TENAR PREENCHER AS OUTRAS NOTAS... A-1 e A9 A10....
