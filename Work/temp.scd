@@ -7,6 +7,7 @@
 
 (s.scope;)//Show Scope
 (s.plotTree;)
+(s.freqscope)
 /*
 SynthDef(\name, {
 		arg out = 0, //Output
@@ -63,9 +64,10 @@ SynthDef("reson", {
 SynthDef(\wnoise, {
 	arg freq = 110,
 	rq = 0.05,
-	vl = 1;
-	Out.ar(0,
-		BPF.ar(WhiteNoise.ar(0.2, 0)!2,VarLag.kr(freq, vl, 5), VarLag.kr(rq, vl, 5),1,0)
+	vl = 1, amp = 0.5,
+	pan = 0;
+	Out.ar(0,Pan2.ar(
+		BPF.ar(WhiteNoise.ar(VarLag.kr(amp, vl, 7), 0),VarLag.kr(freq, vl, 5), VarLag.kr(rq, vl, 5),1,0), VarLag.kr(pan, vl, 7), 1)
 	)
 }).add;
 
@@ -73,10 +75,15 @@ SynthDef(\wnoise, {
 
 ~snd7 = Synth(\wnoise);
 
-~snd7.set(\freq, 440, \vl, 5);
+~snd7.set(\freq, 380);
 
-~snd7.set(\rq, 0.01);
+~snd7.set(\vl, 0.1);
 
+~snd7.set(\rq, 0.003);
+
+~snd7.set(\pan, 0);
+
+~snd7.set(\amp, 1);
 
 
 
@@ -172,12 +179,12 @@ f.value(440,2);
 (
 SynthDef(\twoPulses, {
 
-	arg pan = 0,
-			amp = 1,
+	arg pan = 0.0,
+			amp = 1.0,
 			mix = 0.75,
 			room = 0.95,
 			damp = 0.25,
-			release_dur = 5,
+			release_dur = 5.0,
 			gate = 1;
 	var env, sound;
 	env = EnvGen.kr(Env.asr(0.01, amp, release_dur), gate, doneAction:2);
@@ -214,16 +221,28 @@ SynthDef(\twoPulses, {
 (
 
 t = Task({
-    var a;
-    a =  Synth.new(\twoPulses, [\release_dur, 5, \amp, 1, \gate, 1]);
-    3.wait;
-    a.set(\gate, 0);
-   });
+			var b, a;
+		b =  Synth.new(\twoPulses,
+			[\release_dur, 0.5,
+			\amp, 1,
+			\gate, 1,
+			\mix, 0,
+			\pan, rrand(-1.0, 1.0)]
+		);
+		5.wait;
+		b.set(\gate, 0);
+		a =  Synth.new(\twoPulses,
+			[\release_dur, 5,
+			\amp, 1,
+			\gate, 1, \pan, rrand(-1.0, 1.0)]);
+		3.wait;
+		a.set(\gate, 0);
+	 });
 
 )
 
 
-   t.start;
+	t.start;
 
 
 
@@ -232,10 +251,10 @@ t = Task({
 
 (
 SynthDef(\sines, {arg out = 0, release_dur, gate =1, amp = 0.2;
-    var sines, env;
-    env = EnvGen.kr(Env.asr(0.01, amp, release_dur), gate, doneAction:2);
-    sines = SinOsc.ar(852, 0, 2.2)+SinOsc.ar(1633, 0, 2.2);
-    Out.ar(out, sines * env);
+		var sines, env;
+		env = EnvGen.kr(Env.asr(0.01, amp, release_dur), gate, doneAction:2);
+		sines = SinOsc.ar(852, 0, 2.2)+SinOsc.ar(1633, 0, 2.2);
+		Out.ar(out, sines * env);
 }).add
 
 )
@@ -243,16 +262,16 @@ SynthDef(\sines, {arg out = 0, release_dur, gate =1, amp = 0.2;
 (
 
 t = Task({
-    var a;
-    a =  Synth.new(\sines, [\release_dur, 5, \out, 0, \amp, 0.2, \gate, 1]);
-    1.wait;
-    a.set(\gate, 0);
-   });
+		var a;
+		a =  Synth.new(\sines, [\release_dur, 5, \out, 0, \amp, 0.2, \gate, 1]);
+		1.wait;
+		a.set(\gate, 0);
+	 });
 
 )
 
 
-   t.start;
+	 t.start;
 
 */
 
