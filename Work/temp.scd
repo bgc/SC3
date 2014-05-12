@@ -55,6 +55,31 @@ SynthDef("reson", {
 	)* 3.reciprocal;
 }).add;
 )
+
+
+(
+
+SynthDef(\wnoise, {
+	arg freq = 110,
+	rq = 0.05,
+	vl = 1;
+	Out.ar(0,
+		BPF.ar(WhiteNoise.ar(0.2, 0)!2,VarLag.kr(freq, vl, 5), VarLag.kr(rq, vl, 5),1,0)
+	)
+}).add;
+
+)
+
+~snd7 = Synth(\wnoise);
+
+~snd7.set(\freq, 440, \vl, 5);
+
+~snd7.set(\rq, 0.01);
+
+
+
+
+
 /*
 calcular uma perfect fourth onde cent.value = 500 cents
 Erg.value=Freq.value*Math.pow((Math.pow(2,1/1200)),Cent.value);
