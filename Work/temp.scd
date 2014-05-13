@@ -88,6 +88,26 @@ SynthDef(\wnoise, {
 
 
 
+
+s.boot;
+(
+SynthDef("help-Synth-get", { arg freq = 440;
+    Out.ar(0, SinOsc.ar(freq, 0, 0.1));
+}).add;
+)
+x = Synth("help-Synth-get");
+x.set(\freq, 220 + 440.rand);
+
+({
+	var a;
+	x.get(\freq, { arg value; ("freq is now:" + value + "Hz").postln; a = value; a.value().postln; a.value().postln; a.postln; });
+
+}.value)
+	x.free;
+
+
+
+
 /*
 calcular uma perfect fourth onde cent.value = 500 cents
 Erg.value=Freq.value*Math.pow((Math.pow(2,1/1200)),Cent.value);
@@ -246,15 +266,15 @@ t = Task({
 
 
 /**
- * 
+ *
  * Este código não é meu.
  * Michael Dzjaparidze
- * 
+ *
  */
 (
 SynthDef.new("vinylCrackling", { arg out = 10;
 	var pop, imp, modImp, midNoise, hiNoise, loNoise, loopTime, numChan,w, x, y;
-	
+
 	loopTime = 8;
 	numChan = 2;
 
@@ -263,28 +283,28 @@ SynthDef.new("vinylCrackling", { arg out = 10;
 	pop = Resonz.ar(Decay.ar(pop, TRand.ar(0.001, 0.1, pop)), Demand.ar(pop, 0, Dseq({ 7000.bilinrand.abs + 40 } ! 		loopTime, inf)), mul: Demand.ar(pop, 0, Dseq({ exprand(0.1, 0.87) } ! loopTime, inf)));
 	pop = LeakDC.ar(pop, TRand.ar(0.9, 0.9995, pop));
 	#w, x, y = PanB2.ar(pop, Demand.ar(pop, 0, Dseq({ 1.0.rand2 } ! loopTime, inf)));
-	
+
 	//Softer, highpass filtered impulses
 	imp = { arg i; HPF.ar(LPF.ar(Dust2.ar(8), 8000.0), 6000.0, WhiteNoise.ar(0.7)) } ! numChan;
-	
-	//Faster, modulated lowpass filtered impulses 
+
+	//Faster, modulated lowpass filtered impulses
 	modImp = LPF.ar(Dust.ar(LFDNoise3.ar(1).exprange(100, 500), LFDNoise3.ar(10).exprange(0.01, 0.07)), 9000.0) ! numChan;
-	
+
 	//Mid frequency modulated noise background
 	midNoise = LPF.ar(GrayNoise.ar(LFDNoise3.ar(60)) * WhiteNoise.ar(0.009), 12000.0) ! numChan;
-	
+
 	//High frequency modulated noise background
 	hiNoise = HPF.ar(LPF.ar(GrayNoise.ar(LFDNoise3.ar(60)) * WhiteNoise.ar(0.01), 14000.0), 8000.0) ! numChan;
-	
+
 	//Low frequency modulated noise background
 	loNoise = LPF.ar(BrownNoise.ar(PinkNoise.ar.range(0.001, 0.02)), 1200) ! numChan;
-	
+
 	Out.ar(out, DecodeB2.ar(numChan, w, x, y) + imp + modImp + midNoise + hiNoise + loNoise);
 	}).send(s);
 )
 
 s.sendMsg("/s_new", "vinylCrackling", 1001, 0, 0, \out, 0);
-s.sendMsg("/n_free", 1001); 
+s.sendMsg("/n_free", 1001);
 
 
 
