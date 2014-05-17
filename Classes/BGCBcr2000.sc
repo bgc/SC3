@@ -23,9 +23,12 @@ BCR2000 {
 	}
 
 	initBCR2000{
+
 		//arg port = 1;
 		//CHANGED FROM CONNECTALL TO A SPECIFIC PORT (default 1)
 		//MIDIIn.connect(port, MIDIClient.sources.at(port));
+		//Removed specific port to connectAll... was getting an error
+
 		MIDIIn.connectAll;
 
 		topButtons1	= IdentityDictionary[
@@ -205,8 +208,8 @@ BCR2000Button : BCR2000Controller {
 		}
 
 /*  onRelease_{|action|
-    releaseresp= MIDIdef.noteOff((key++"release").asSymbol, {|val| if(val==0, { action.value(val) }) }, num);
-  }
+		releaseresp= MIDIdef.noteOff((key++"release").asSymbol, {|val| if(val==0, { action.value(val) }) }, num);
+	}
 */
 
 	free{
@@ -218,19 +221,19 @@ BCR2000Button : BCR2000Controller {
 //the R8 buttons send cc events
 BCR2000Knob : BCR2000Controller {
 
-  var responder;
+	var responder;
 
-  onChanged_{|action|
-    responder= MIDIdef.cc((key).asSymbol, {|val| action.value(val)  }, num);
-  }
+	onChanged_{|action|
+		responder= MIDIdef.cc((key).asSymbol, {|val| action.value(val)  }, num);
+	}
 
 /*  onRelease_{|action|
-    releaseresp= MIDIdef.noteOff((key++"release").asSymbol, {|val| if(val==0, { action.value(val) }) }, num);
-  }
+		releaseresp= MIDIdef.noteOff((key++"release").asSymbol, {|val| if(val==0, { action.value(val) }) }, num);
+	}
 */
-  free{
-    responder.free;
-  }
+	free{
+		responder.free;
+	}
 }
 
 
@@ -245,8 +248,8 @@ n = BCR2000.new;
 
 
 n.topButton1.onChanged = {|val| 
-    "fader 1 changed".postln;
-    val.postln;
+		"fader 1 changed".postln;
+		val.postln;
 };
 
 n.topKnob1.onChanged = {
@@ -256,7 +259,7 @@ n.topKnob1.onChanged = {
 
 
 n.topButtons1.do{|knob, i| 
-    knob.onChanged= {|val| ("knob"+(i+1)).postln; val.postln }
+		knob.onChanged= {|val| ("knob"+(i+1)).postln; val.postln }
 };
 
 
