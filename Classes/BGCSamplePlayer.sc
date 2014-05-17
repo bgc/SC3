@@ -170,13 +170,7 @@ BGCSamplePlayer {
 		this.oscr = OSCresponder(this.s.addr,'/tr',{ |time,responder,msg|
 		//	OSC id lookup cheat sheet
 		//	0	Input Levels
-		//	1	Beat One
-		//	2	Crotchets
-		//	3	Quavers
-		//	4	Onsets Frames
-		//	5	SemiQuavers
-		//	6	Onset loop Level
-		//	7	Onset LED
+
 
 		switch (msg[2])
 			{0}	{
@@ -185,29 +179,6 @@ BGCSamplePlayer {
 						this.meter.peakLevel = msg[4].ampdb.linlin(-40, 0, 0, 1);
 					}.defer
 				}
-			/*	{1}	{ this.beatOneOSCAction }
-			{2}	{ this.crotchetOSCAction }
-			{3}	{ this.quaverOSCAction }
-			{4}	{
-					if(nowAnalysing) {
-						onsetFrames.add(msg[3])
-					};
-				}
-			{5}	{ this.semiquaverOSCAction }
-			{6}	{
-					{
-						onsetMeter.value = msg[3].ampdb.linlin(-40, 0, 0, 1);
-						onsetMeter.peakLevel = msg[4].ampdb.linlin(-40, 0, 0, 1);
-					}.defer
-				}
-			{7}	{
-					{
-						{onsetLED.value = msg[3]/msg[3]}.defer;
-						0.1.wait;
-						{onsetLED.value = 0}.defer ;
-					}.fork
-				};
-			*/
 		}).add;
 	}
 
