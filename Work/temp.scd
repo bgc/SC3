@@ -344,7 +344,110 @@ t = Task({
 
 
 
+(
+{
+	var source, local;
 
+	//source = Decay.ar(Impulse.ar(0.3), 0.1) * WhiteNoise.ar(0.2);
+	source = Streson.ar(
+		SinOscFB.ar(120, MouseX.kr(-1, 1)),
+		//	MouseY.kr(0.001, 0.9)
+			0.9
+	);
+	local = LocalIn.ar(2) + [source, 0]; // read feedback, add to source
+	local = Rotate2.ar(local[0], local[1], 0.6);
+	//local = DelayN.ar(local, 0.1, 0.1); // delay sound
+
+	// reverse channels to give ping pong effect, apply decay factor
+	LocalOut.ar(local * MouseY.kr(0.0001, 1));
+	//LocalOut.ar(local);
+	Out.ar(0, local);
+}.play;
+)
+
+
+
+
+
+
+
+({
+	Out.ar(0,Streson.ar(SinOscFB.ar(
+		//MouseX.kr(0, 2000)
+		110,
+		//MouseY.kr(0.0001, 1)
+		Streson.ar(Impulse.ar(12),LinExp.kr(LFCub.kr(0.1, 0.5*pi), -1, 1, 280, 377).reciprocal
+		)
+	),0.5))
+}.play
+)
+
+
+({
+	Out.ar(0,
+		Streson.ar(
+			SinOscFB.ar(97, MouseX.kr(-1, 1)),
+		//	MouseY.kr(0.001, 0.9)
+			0.9
+	))
+}.play
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Simple Feedback
+(
+{
+	// below we declare our variables with 'var'
+	var input, fBLoopIn, fBLoopOut, processing;
+	// input is our sound source, a little noise
+	input =Crackle.ar(1.5,0.5);
+	// fBLoopIn is our feedback loop insertion point.
+	fBLoopIn =LocalIn.ar(1);
+	// in processing, we mix the input with the feedback loop
+	// here MouseX is being used to control the gain of the feedback signal
+	// LeakDC removes DC offset
+	processing = input +LeakDC.ar((fBLoopIn *MouseX.kr(0,1.05)));
+	// fBLoopOut is our feedback loop output point
+	fBLoopOut=LocalOut.ar(processing);
+	// Out routes the audio to the speakers. the square brackets send the output to both left
+	// and right channels.
+	Out.ar([0,1], processing)
+	}.play
+)
+
+//Same as before + Delay
+
+(
+	{
+		// below we declare our variables with 'var'
+		var input, fBLoopIn, fBLoopOut, processing;
+		// input is our sound source, a little noise
+		input =Crackle.ar(1.5,0.5);
+		// fBLoopIn is our feedback loop insertion point.fBLoopIn =LocalIn.ar(1);
+		// in processing, we mix the input with the feedback loop
+		// here MouseX is being used to control the gain of the feedback signal
+		processing = input +LeakDC.ar((DelayN.ar(fBLoopIn,0.5,0.5, *MouseX.kr(0,1.05))));
+		// fBLoopOut is our feedback loop output point
+		fBLoopOut =LocalOut.ar(processing);
+		processing =Limiter.ar(processing,0.8);
+		// Out routes the audio to the speakers. the square brackets send the output to both left
+		// and right channels.
+		Out.ar([0,1], processing);
+		}.play
+
+)
 
 
 
