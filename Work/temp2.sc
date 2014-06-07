@@ -1,3 +1,61 @@
+(
+{
+	var sin1, //Sine Oscillator
+			sin2, //Sine Oscillator
+			sin3, //Sine Oscillator
+			sin4, //Sine Oscillator
+			sin1Freq,
+			sin2Freq,
+			sin3Freq,
+			sin4Freq,
+			sin1FDiBrown,
+			sin2FDiBrown,
+			sin3FDiBrown,
+			sin4FDiBrown
+;
+
+	sin1 = SinOsc.ar();
+	sin2 = SinOsc.ar();
+	sin3 = SinOsc.ar();
+	sin4 = SinOsc.ar();
+
+}.play;
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 s.makeGui;
 b = Buffer.read(s,Platform.resourceDir +/+ "sounds/a11wlk01-44_1.aiff");
 b.plot;

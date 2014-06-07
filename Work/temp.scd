@@ -231,7 +231,17 @@ SynthDef(\twoPulses, {
 
 
 
-
+// The Dbrown and Dibrown Ugens are good for random walk (drunken walk)
+(
+{
+	var a, freq, trig;
+	a = Dbrown(-1.0, 1.0, 0.1, inf);
+	trig = Impulse.kr(MouseX.kr(1, 40, 1));
+	freq = Demand.kr(trig, 0, a) * 30 + 340;
+	Poll.kr(trig, a, "Dibrown");
+	SinOsc.ar(freq) * 0.1
+}.play;
+)
 
 
 
