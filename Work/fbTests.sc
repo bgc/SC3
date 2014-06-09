@@ -1,12 +1,42 @@
 //Feedback test
-//TODO: MAKE IT A SYNTHDEF to have args and control them
 (
 
 SynthDef(\fbMachine,{
-		arg crAmp			 = 0.5,
-				limiterAmt = 0.8,
-				fbInAmt		 = 0.8,
-				fVolAmt = 0.5;
+				//Main Machine Arguments
+		arg crAmp			 = 0.5, //Input Sine Amplitude
+				limiterAmt = 0.8, //Limiter Amount
+				fbInAmt		 = 0.8, //Feedback Amount
+				fVolAmt		 = 0.5, //Chain final Volume
+
+				//EQ Arguments
+
+				//EQ Frequencies
+				eqLFreq = 150, //equalizer lows frequency (80)
+				eqMLFreq = 800, //equalizer low mids frequency (400)??
+				eqMHFreq = 3000, //equalizer high mids frequency (800)??
+				eqHFreq = 6000, //equalizer highs frequency (2000)??
+
+				//EQ Reciprocal of Q
+				eqLRq = 1, //equalizer lows reciprocal of Q (1) //check min && max
+				eqMLRq = 1, //equalizer low mids reciprocal of Q (1) //check min && max
+				eqMHRq = 1, //equalizer high mids reciprocal of Q (1) //check min && max
+				eqHRq = 1, //equalizer highs reciprocal of Q (1) //check min && max
+
+				//EQ Boost/Cut Amount
+				eqLBC = 0, //equalizer lows Boost/Cut (0) //check min && max
+				eqMLBC = 0, //equalizer low mids Boost/Cut (0) //check min && max
+				eqMHBC = 0, //equalizer high mids Boost/Cut (0) //check min && max
+				eqHBC = 0, //equalizer highs Boost/Cut (0) //check min && max
+
+				eqActive = 0, //whether eq is on or off;
+				//End of EQ Arguments
+				//Delay Arguments
+				delayTime = 0.4, //Time in Seconds
+				delayFb = 0.6, //Feedback Amount (always < 0.9)
+				delayWet = 0.5; //Wet Amount. Dry is always 1 - delayWet
+				//End of Delay Arguments
+
+
 		var input,
 				fbIn,
 				fbOut,
@@ -20,7 +50,7 @@ SynthDef(\fbMachine,{
 		//input = Crackle.ar(1.5, crAmp);
 		//crAmp = MouseX.kr(0,1.05);
 		//Poll(Impulse.kr(1), crAmp);
-		input = SinOsc.ar(30,0.5,crAmp);
+		input = SinOsc.ar(27.5,0.5,crAmp);
 
 		//Get Feedback
 		fbIn = LocalIn.ar(1);
@@ -31,6 +61,31 @@ SynthDef(\fbMachine,{
 
 		//Start Processing Chain
 		processing = input + entry;
+
+		//EQ Stage
+		//Low Shelf
+		eq = BLowShelf.ar(processing, eqLFreq, eqLRq, eqLBC);
+		//Low Mids
+		eq = BPeakEQ.ar(eq, eqMLFreq,eqMLRq ,eqMLBC);
+		//High Mids
+		eq = BPeakEQ.ar(eq, eqMHFreq,eqMHRq ,eqMHBC);
+		//High Shelf
+		eq = BHiShelf.ar(eq, eqHFreq,eqHRq ,eqHBC);
+
+		processing = Select.ar(eqActive,
+			[
+				processing,
+				eq
+			]
+		);
+
+		processing = SwitchDelay.ar(
+			processing,
+			delaytime: delayTime,
+			delayfactor: delayFb,
+			wetlevel: delayWet,
+			drylevel: 1-delayWet
+		);
 
 
 		//End Processing Chain
@@ -47,9 +102,34 @@ SynthDef(\fbMachine,{
 	}).add;
 
 )
+
 s.makeGui;
 
 ~x = Synth.new(\fbMachine);
+
+~x.set(\eqActive, 1);
+~x.set(\eqActive, 0);
+
+~x.set(\eqLBC, -30);
+~x.set(\eqLBC, 0);
+
+~x.set(\eqMLBC, -30);
+~x.set(\eqMLBC, 0);
+
+~x.set(\eqMHBC, -30);
+~x.set(\eqMHBC, 15);
+
+~x.set(\eqHRq, 0.4);
+~x.set(\eqHBC, -45);
+~x.set(\eqHBC, 12);
+
+~x.set(\delayWet, 0);
+~x.set(\delayWet, 0.6);
+
+~x.set(\delayTime, 0.2);
+~x.set(\delayFb, 0.1);
+
+
 ~x.free;
 
 
@@ -107,7 +187,7 @@ s.makeGui;
 	/*
 	TODO check if i want eq or not... one switch or 4 switches?
 	start with only 1 global switch... no need to complicate things at start
-	remenber to map eqActive to int from 0 to 1, 0 being default
+	remember to map eqActive to int from 0 to 1, 0 being default
 	*/
 
 	//Low Shelf

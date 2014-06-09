@@ -60,7 +60,6 @@ BGCPerf {
 					\gate, 1,
 					\mix, 0,
 					\pan, rrand(-1.0, 1.0),
-					\freq, rrand(130.813, 10548.082)
 				]
 			);
 			5.wait;
@@ -70,7 +69,6 @@ BGCPerf {
 					\amp, 1,
 					\gate, 1,
 					\pan, rrand(-1.0, 1.0),
-					\freq, rrand(130.813, 10548.082)
 				]
 			);
 			3.wait;
@@ -86,11 +84,7 @@ BGCPerf {
 					freq = 440;
 			OffsetOut.ar(0,
 				Pan2.ar(
-					BPF.ar(
-						Impulse.ar(0),
-						freq,
-						0.3
-					),
+					Impulse.ar(0),
 					whichOut,
 					amp
 				)
@@ -105,8 +99,7 @@ BGCPerf {
 					room = 0.95,
 					damp = 0.25,
 					release_dur = 5.0,
-					gate = 1,
-					freq = 440;
+					gate = 1;
 			var env,
 					sound;
 			env = EnvGen.kr(
@@ -115,11 +108,7 @@ BGCPerf {
 			);
 			sound = FreeVerb.ar(
 				Pan2.ar(
-					BPF.ar(
-						Impulse.ar(0),
-						freq,
-						0.3
-					),
+					Impulse.ar(0),
 					pan,
 					amp
 				),
