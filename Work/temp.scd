@@ -37,7 +37,7 @@ SynthDef("reson", {
 		Resonz.ar(
 				Dust2.ar(dust0),//in
 				note,//freq
-				0.0001,//bwr (0.001 tem ataque mais suave, 0.01 tem ataque imediato, 0.1 fica alto o ataque e fa clicks...
+				0.0001,//bwr (0.001 tem ataque mais suave, 0.01 tem ataque imediato, 0.1 fica alto o ataque e faz clicks...
 				500 //VOLUME???,
 			)+
 		Resonz.ar(Dust2.ar(dust1), note*2, 0.0001, 500)+
@@ -227,6 +227,31 @@ SynthDef(\twoPulses, {
 
 )
 
+(
+
+t = Task({
+			var b, a;
+		b =  Synth.new(\twoPulses,
+			[\release_dur, 0.5,
+			\amp, 1,
+			\gate, 1,
+			\mix, 0,
+			\pan, rrand(-1.0, 1.0)]
+		);
+		5.wait;
+		b.set(\gate, 0);
+		a =  Synth.new(\twoPulses,
+			[\release_dur, 5,
+			\amp, 1,
+			\gate, 1, \pan, rrand(-1.0, 1.0)]);
+		3.wait;
+		a.set(\gate, 0);
+	});
+
+)
+
+
+	t.start;
 
 
 
@@ -248,31 +273,6 @@ SynthDef(\twoPulses, {
 
 
 
-(
-
-t = Task({
-			var b, a;
-		b =  Synth.new(\twoPulses,
-			[\release_dur, 0.5,
-			\amp, 1,
-			\gate, 1,
-			\mix, 0,
-			\pan, rrand(-1.0, 1.0)]
-		);
-		5.wait;
-		b.set(\gate, 0);
-		a =  Synth.new(\twoPulses,
-			[\release_dur, 5,
-			\amp, 1,
-			\gate, 1, \pan, rrand(-1.0, 1.0)]);
-		3.wait;
-		a.set(\gate, 0);
-	 });
-
-)
-
-
-	t.start;
 
 
 /**
