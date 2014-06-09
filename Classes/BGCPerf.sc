@@ -80,6 +80,7 @@ BGCPerf {
 	}
 
 	setSynthDefs {
+
 		SynthDef("pulsestream", {
 			arg whichOut = 0, //define Pan2 position
 					amp = 0.5, //define current pulse amplitude
