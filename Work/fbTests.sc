@@ -1,4 +1,5 @@
 //Feedback test
+//TODO: MAKE IT A SYNTHDEF to have args and control them
 (
 {
 	var input, //Initial Input
@@ -135,22 +136,25 @@
 		feedback delay line implementing switch-and-ramp buffer jumping
 		No need for XFade2??? but still needs delAmt to change levels od dry & wet
 	*/
+	/*
 	delayed = processing;
 	//delAmt varies between -1 (dry) & 1(wet);
 	processing = XFade2.ar(processing, delayed, delAmt, 1);
-
+	*/
 
 	//Reverb
 	/*
 	JPverb?
 	FreeVerb?
 	*/
+	/*
 	reverbed = processing;
 	//revAmt varies between -1 (dry) & 1(wet);
 	processing = XFade2.ar(processing, reverbed, revAmt, 1);
+	*/
+
+
 	limiterAmt = 0.8;
-
-
 	//Limiter
 	processing = Limiter.ar(processing, limiterAmt);
 	//Final Volume
