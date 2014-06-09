@@ -1,3 +1,4 @@
+//Feedback test
 (
 {
 	var input, //Initial Input
@@ -52,7 +53,20 @@
 	//MultiEQ.new(2, \loshelf, 56.662, -2.556.dbamp, 1, \eq, 344.517, -2.256.dbamp, 1, \hishelf, 7834.203, 1.654.dbamp, 1)
 	*/
 
+	/* TREMOLO ?
+		tremFreq 0.001 - 6hz
+		depth = trem Amount
+		(
+			var input, tremWave, modulator, depth=0.25;
 
+			a = {
+				tremWave = SinOsc.ar(3, 0, depth);
+				modulator = (1.0 - depth) + tremWave;
+				input = SinOsc.ar(20, 0, 1.0);
+				input * modulator;
+			}.plot(2.0);
+)
+	*/
 	/*
 	DiodeRingMod?
 	*/
