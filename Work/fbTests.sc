@@ -1,11 +1,65 @@
 //Feedback test
 //TODO: MAKE IT A SYNTHDEF to have args and control them
 (
+
+SynthDef(\fbMachine,{
+		arg crAmp			 = 0.5,
+				limiterAmt = 0.8,
+				fbInAmt		 = 0.8,
+				fVolAmt = 0.5;
+		var input,
+				fbIn,
+				fbOut,
+				entry,
+				processing,
+				eq,
+				delayed,
+				reverbed;
+
+		//Generate input
+		//input = Crackle.ar(1.5, crAmp);
+		//crAmp = MouseX.kr(0,1.05);
+		//Poll(Impulse.kr(1), crAmp);
+		input = SinOsc.ar(30,0.5,crAmp);
+
+		//Get Feedback
+		fbIn = LocalIn.ar(1);
+		fbInAmt = MouseX.kr(0,1.05);
+
+		//Remove DC Offset & apply volume
+		entry = LeakDC.ar(fbIn * fbInAmt);
+
+		//Start Processing Chain
+		processing = input + entry;
+
+
+		//End Processing Chain
+
+		//Write to fbOut
+		fbOut = LocalOut.ar(processing);
+		//Limiter
+		processing = Limiter.ar(processing, limiterAmt);
+		//Final Volume
+		processing = processing * fVolAmt;
+
+
+		Out.ar([0,1], processing);
+	}).add;
+
+)
+s.makeGui;
+
+~x = Synth.new(\fbMachine);
+~x.free;
+
+
+
+(
 {
 	var input, //Initial Input
 			crAmp, //Input Amplitude
 			fbIn, //LocaL Signal In
-			fbInAmt, //Local Signal In Amplitude
+			fbInAmt, //Local Signal Amplitude
 			entry, //Local Signal Entry after LeakDC Removed & Amplitude applied
 
 			processing, //Processing Chain
