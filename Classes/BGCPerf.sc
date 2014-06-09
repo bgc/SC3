@@ -6,14 +6,14 @@ BGCPerf {
 	//> set
 
 	var <>window, //the window
-			<>s //the server;
+			<>s; //the server
 
 	*new {
 		^super.new.init;
 	}
 
 	init {
-		arg s = Servel.local;
+		arg s = Server.local;
 		this.s = s;
 
 		{
@@ -51,7 +51,6 @@ BGCPerf {
 	}
 
 	sendOutTwoPulses {
-		//t = Task({ ou fork???
 		fork ({
 			var b, a;
 			b =  Synth.new(\twoPulses,
@@ -88,14 +87,14 @@ BGCPerf {
 			OffsetOut.ar(0,
 				Pan2.ar(
 					BPF.ar(
-						Impulse.ar(0)
+						Impulse.ar(0),
 						freq,
 						0.3
 					),
 					whichOut,
 					amp
-				),
-			)
+				)
+			);
 			FreeSelf.kr(Impulse.kr(0));
 		}).add;
 
