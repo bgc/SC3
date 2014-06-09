@@ -78,6 +78,7 @@
 	//Delay
 	/*
 	MultiTap?
+
 	SwitchDelay?
 		feedback delay line implementing switch-and-ramp buffer jumping
 		No need for XFade2??? but still needs delAmt to change levels od dry & wet

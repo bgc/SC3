@@ -25,8 +25,7 @@
 			freq2,
 			freq3,
 			freq4
-
-;
+			;
 
 	freqArray = [
 		261.6256,
@@ -83,13 +82,13 @@
 	/*	Mix.ar(
 		[SinOsc.ar(freq1), SinOsc.ar(freq2), SinOsc.ar(freq3), SinOsc.ar(freq4)]
 	);
-*/
+	*/
 	/*
 	sin1 = SinOsc.ar();
 	sin2 = SinOsc.ar();
 	sin3 = SinOsc.ar();
 	sin4 = SinOsc.ar();
-*/
+	*/
 
 }.play;
 )
