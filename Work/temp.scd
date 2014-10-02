@@ -1,3 +1,9 @@
+(
+Server.default = Server.local;
+s = Server.default;
+s.boot;
+)
+
 (s.boot;)//Startup
 
 (s.reboot;)//restart
