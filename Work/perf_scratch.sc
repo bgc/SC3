@@ -93,3 +93,21 @@ SynthDef("help-brick", { arg out=0, bufnum=0,bufnum2=1, bufnum3 = 2;
 
 o = BGCPerfMachine.new("127.0.0.1", 333);
 o.ctrlPort;
+
+
+
+
+a = ["there", "is", "no", "Escape", "put", "down"];
+a = Array.new();
+a = a + ["there", "is", "no", "Escape"];
+b = NetAddr.new("192.168.1.34", 8000);
+b.sendMsg("/Menu/populateMenu", *a);
+// send the application the message "hello" with the parameter "there"
+a.asCompileString
+a.join(",")
+*a
+a.asString.interpret
+a.streamContents;
+a.asCompileString.asOSCArgBundle
+~player;
+~player.free;
