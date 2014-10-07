@@ -46,13 +46,13 @@ How about:
 Server.default = s = Server.internal.boot;
 f = FreqScope.new;
 (SynthDef(\bandpass_brickwall, { arg out=0,bufnum=0;
-        var in, chain, valor, pct;
-        in = WhiteNoise.ar(0.2);
-        chain = FFT(LocalBuf(2048), in);
-        valor = MouseX.kr(0, 22050);
-        chain = PV_BrickWall(chain,  SampleDur.ir * (valor * 2));
-        chain = PV_BrickWall(chain, (SampleDur.ir * ((valor + 2000) * 2)) - 1);
-        Out.ar(out, 0.5 * IFFT(chain));
+				var in, chain, valor, pct;
+				in = WhiteNoise.ar(0.2);
+				chain = FFT(LocalBuf(2048), in);
+				valor = MouseX.kr(0, 22050);
+				chain = PV_BrickWall(chain,	SampleDur.ir * (valor * 2));
+				chain = PV_BrickWall(chain, (SampleDur.ir * ((valor + 2000) * 2)) - 1);
+				Out.ar(out, 0.5 * IFFT(chain));
 }).play(s,[\out,0]);
 )
 
@@ -111,3 +111,52 @@ a.streamContents;
 a.asCompileString.asOSCArgBundle
 ~player;
 ~player.free;
+
+
+
+
+
+
+
+
+(
+f = { |action|
+	var myAddr = Ref.new;
+	var before = NetAddr.broadcastFlag;
+	NetAddr.broadcastFlag = true;
+	OSCresponder(nil, '/getMyIP', { |t,r,msg,addr|
+		action.(addr);
+		NetAddr.broadcastFlag = before;
+	}).add;
+
+	NetAddr("255.255.255.255", NetAddr.langPort).sendMsg('/getMyIP');
+};
+
+)
+
+f.({ |addr| addr.postln });
+
+
+OSCFunc.trace(true);
+// Turn posting on
+OSCFunc.trace(false);
+
+
+(
+OSCdef.new(
+	\menu, {
+		arg msg, time, address, port;
+		"comming from: " + msg[0].postln;
+		msg[1].postln;
+
+	},
+	'Container/Menu/selection'
+);
+)
+
+
+
+x = BGCPerfMachine.new("192.168.1.34", 8000);
+x.free();
+x.selectFolder;
+x;

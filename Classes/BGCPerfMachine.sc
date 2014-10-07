@@ -8,10 +8,10 @@ BGCPerfMachine {
 
 
 	//AUDIO FILES RELATED
-	<>thePath, //parent directory of sound files
+
 	<>audioFilesBufferList, //list of buffers with the soundfiles
 	<>fileList, //the Gui List with filenames
-	<>thePath, //parent directory of sound files
+	<>filePath, //the path of file
 
 	<>arraySize,
 	<>minFreq,
@@ -34,21 +34,27 @@ BGCPerfMachine {
 		arg s = Server.local;
 
 		this.s = s;
+
 		("Will connect to IP: " + this.ctrlIP).postln;
 		("On Port : " + this.ctrlPort).postln;
 
 		this.audioFilesBufferList = List.new();
+
 		this.fileList = Array.new();
+		this.filePath = Array.new();
+
 		this.arraySize = 24;
+
 		this.minFreq = 55;
 		this.maxFreq = 13000;
-		this.freqsArray = Array.fill(this.arraySize+1,{
+
+		this.freqsArray = Array.fill(this.arraySize+1, {
 			arg i;
 			(1/this.arraySize)*i
 		});
+
 		this.freqsArray.sort;
 		this.freqsArray.removeAt(0);
-		Post << this.freqsArray;
 
 		/*
 		//loadup synthdefs
@@ -75,19 +81,18 @@ BGCPerfMachine {
 
 	loadFiles {
 		arg paths;
-		var file ,setupLMenu;
+
+		var setupLMenu;
 
 		this.clearBuffers;
 
+		this.fileList = Array.new(paths.size);
+		this.filePath = Array.new(paths.size);
 
 
 		paths[0].postln;
-		this.thePath = paths[0].dirname;
-		/*
-		a = ["there", "is", "no", "Escape", "put", "down"];
-b = NetAddr.new("192.168.1.34", 8000);    // create the NetAddr
-b.sendMsg("/Menu/populateMenu", *a);
-		*/
+		//this.thePath = paths[0].dirname;
+
 
 		paths.do{
 			arg path;
@@ -98,7 +103,10 @@ b.sendMsg("/Menu/populateMenu", *a);
 			if( this.isAudioFile(path.basename),
 				{
 					[\loaded, path.basename].postln;
+
 					this.fileList.add(path.basename);
+					this.filePath.add(path.dirname);
+
 					numchnls = SoundFile(path).numChannels;
 					if(numchnls == 2,{
 						this.audioFilesBufferList.add(Buffer.read(this.s,path, channels: [0]));
@@ -114,16 +122,17 @@ b.sendMsg("/Menu/populateMenu", *a);
 		};
 
 
-		/*
+
 		if(this.fileList.size > 0,
 			{
-				setupLMenu = NetAddr.new(this.ctrlIP, this.ctrlPort)
+				setupLMenu = NetAddr.new(this.ctrlIP, this.ctrlPort);
 				setupLMenu.sendMsg("/Menu/populateMenu", *this.fileList);
 			},{
 				"You don't know what you are doing!".postln;
 			}
 		);
-		*/
+
+
 
 	}
 
@@ -131,7 +140,9 @@ b.sendMsg("/Menu/populateMenu", *a);
 
 	}
 
-
+/*
+/Menu/selection, 1
+*/
 
 	clearBuffers { //cleanups on quit
 		this.player.free;
@@ -166,12 +177,12 @@ b.sendMsg("/Menu/populateMenu", *a);
 	isAudioFile {//check is viable audiofile...
 		arg path;
 		^(
-			path.contains("wav") ||
-			path.contains("wave") ||
-			path.contains("aif") ||
-			path.contains("aiff") ||
-			path.contains("WAV") &&
-			not(path.contains("asd"))
+			path.endsWith("wav") ||
+			path.endsWith("wave") ||
+			path.endsWith("aif") ||
+			path.endsWith("aiff") ||
+			path.endsWith("WAV") &&
+			not(path.endsWith("asd"))
 		)
 	}
 
