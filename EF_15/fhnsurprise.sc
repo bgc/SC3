@@ -1,3 +1,7 @@
+
+//DetectSilence.ar(sig, doneAction:doneAction);
+
+
 //controlled surprise
 (
 SynthDef("FHN-surprise2",

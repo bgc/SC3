@@ -1,3 +1,7 @@
+
+//DetectSilence.ar(sig, doneAction:doneAction);
+
+
 (
 	c = (1..10).choose;
 	c = 1;

@@ -1,3 +1,5 @@
+
+//DetectSilence.ar(sig, doneAction:doneAction);
 (
 
 
