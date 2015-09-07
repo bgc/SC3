@@ -1,5 +1,5 @@
 s.boot;
-
+s.plotTree
 
 
 (
@@ -209,7 +209,13 @@ SynthDef(\pad8, {
       //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
       Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
     doneAction: 0);
-	sig = PulseDPW.ar(freq+LFNoise0.ar(2)) + PulseDPW.ar((freq*2)+LFNoise0.ar(2)) + LFTri.ar((freq) + LFNoise0.ar(4))  + LFTri.ar((freq*0.5) + LFNoise0.ar(4)) + Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
+		sig = PulseDPW.ar(freq+LFNoise0.ar(2)) +
+					PulseDPW.ar((freq*2)+LFNoise0.ar(2)) +
+					LFTri.ar((freq) +
+					LFNoise0.ar(4)) +
+					LFTri.ar((freq*0.5) +
+					LFNoise0.ar(4)) +
+					Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
     //sig = Saw.ar(freq);
     sig = BPF.ar(sig, cf + (freq*env), rq);
     //sig = HPF.ar(sig, 80);
@@ -277,8 +283,8 @@ c.do{
 				\amp, 1/c,
 				\cf, exprand(2, 50)*m,
 				\rq, exprand(0.01, 0.35),
-				\atk, rrand(1.0, 5.0),
-				\rel, exprand(1.0, 5.0),
+				\atk, rrand(0.10, 3.0),
+				\rel, exprand(0.10, 3.0),
 				\pan, rrand(-1.0, 1.0),
 			]
 		);
