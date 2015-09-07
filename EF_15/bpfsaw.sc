@@ -200,7 +200,7 @@
 	c = (1..10).choose;
 	//c = 1;
 	//f = (1..12).choose;
-	f = Scale.enigmatic.degrees.choose;
+	f = Scale.enigmatic.semitones.choose;
 
 ("Root note:" + f).postln;
 
@@ -209,7 +209,7 @@ c.do{
 		//f.postln;
 		//f = 250;
 
-	d = Scale.enigmatic.degrees.choose;
+	d = Scale.enigmatic.semitones.choose;
 
 	("degree: "+ d).postln;
 	("final note: " + (d+f)).postln;
