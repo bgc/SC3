@@ -5,25 +5,23 @@ s.plotTree
 (
 
 SynthDef(\pad1, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, sig2, env;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-    sig = Saw.ar(freq+LFNoise0.ar(2)) + Saw.ar(freq + LFNoise0.ar(4));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, sig2, env;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = Saw.ar(freq+LFNoise0.ar(2)) +
+					Saw.ar(freq + LFNoise0.ar(4));
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig * env * amp;
+		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -31,25 +29,24 @@ SynthDef(\pad1, {
 (
 
 SynthDef(\pad2, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, env, sig2;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-    sig = Saw.ar(freq+LFNoise0.ar(2)) + Saw.ar(freq + LFNoise0.ar(4)) + Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, env, sig2;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = Saw.ar(freq+LFNoise0.ar(2)) +
+					Saw.ar(freq + LFNoise0.ar(4)) +
+					Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig * env * amp;
+		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -64,25 +61,23 @@ SynthDef(\pad2, {
 (
 
 SynthDef(\pad3, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, env, sig2;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-    sig = SinOsc.ar(freq+LFNoise0.ar(2)) + Blip.ar(freq + LFNoise0.ar(4), 100);
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, env, sig2;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = SinOsc.ar(freq+LFNoise0.ar(2)) +
+					Blip.ar(freq + LFNoise0.ar(4), 100);
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig * env * amp;
+		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -92,25 +87,24 @@ SynthDef(\pad3, {
 (
 
 SynthDef(\pad4, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, env, sig2;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-    sig = SinOsc.ar(freq+LFNoise0.ar(2)) + Blip.ar(freq + LFNoise0.ar(4), 100) + Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, env, sig2;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = SinOsc.ar(freq+LFNoise0.ar(2)) +
+					Blip.ar(freq + LFNoise0.ar(4), 100) +
+					Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig * env * amp;
+		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -118,25 +112,24 @@ SynthDef(\pad4, {
 (
 
 SynthDef(\pad5, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, env, sig2;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-    sig = SinOsc.ar(freq+LFNoise0.ar(2)) + SinOsc.ar(freq + LFNoise0.ar(4)) + Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, env, sig2;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = SinOsc.ar(freq+LFNoise0.ar(2)) +
+					SinOsc.ar(freq + LFNoise0.ar(4)) +
+					Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig * env * amp;
+		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -144,25 +137,23 @@ SynthDef(\pad5, {
 (
 
 SynthDef(\pad6, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, env, sig2;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-    sig = SinOsc.ar(freq+LFNoise0.ar(2)) + SinOsc.ar(freq + LFNoise0.ar(4));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, env, sig2;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = SinOsc.ar(freq+LFNoise0.ar(2)) +
+					SinOsc.ar(freq + LFNoise0.ar(4));
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig * env * amp;
+		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -173,26 +164,27 @@ SynthDef(\pad6, {
 (
 
 SynthDef(\pad7, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, sig2, env;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-	sig = SinOsc.ar(freq+LFNoise0.ar(2)) + SinOsc.ar((freq*2)+LFNoise0.ar(2)) + SinOsc.ar((freq) + LFNoise0.ar(4))  + SinOsc.ar((freq*0.5) + LFNoise0.ar(4)) + Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, sig2, env;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = SinOsc.ar(freq+LFNoise0.ar(2)) +
+					SinOsc.ar((freq*2)+LFNoise0.ar(2)) +
+					SinOsc.ar((freq) + LFNoise0.ar(4)) +
+					SinOsc.ar((freq*0.5) + LFNoise0.ar(4)) +
+					Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig.tanh.tanh * env * amp;
+		sig = sig.tanh.tanh * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -201,14 +193,13 @@ SynthDef(\pad7, {
 (
 
 SynthDef(\pad8, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, sig2, env;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
+		var sig, sig2, env;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
 		sig = PulseDPW.ar(freq+LFNoise0.ar(2)) +
 					PulseDPW.ar((freq*2)+LFNoise0.ar(2)) +
 					LFTri.ar((freq) +
@@ -216,17 +207,15 @@ SynthDef(\pad8, {
 					LFTri.ar((freq*0.5) +
 					LFNoise0.ar(4)) +
 					Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig.tanh.tanh * env * amp;
+		sig = sig.tanh.tanh * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
@@ -237,26 +226,26 @@ SynthDef(\pad8, {
 (
 
 SynthDef(\pad9, {
-	  arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
-    freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
+		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
+		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-    var sig, sig2, env;
-    env = EnvGen.kr(
-      //Env.perc(attackTime:atk, releaseTime:rel, level:1, curve:-4),
-      Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
-    doneAction: 0);
-	sig = Formant.ar(freq+LFNoise0.ar(2),freq*2, freq* 0.5) + Formant.ar((freq*2)+LFNoise0.ar(2), freq*4, freq) + LFTri.ar((freq) + LFNoise0.ar(4))  + LFTri.ar((freq*0.5) + LFNoise0.ar(4)) + Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
-    //sig = Saw.ar(freq);
-    sig = BPF.ar(sig, cf + (freq*env), rq);
-    //sig = HPF.ar(sig, 80);
+		var sig, sig2, env;
+		env = EnvGen.kr(
+			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
+			doneAction: 0);
+		sig = Formant.ar(freq+LFNoise0.ar(2),freq*2, freq* 0.5) +
+					Formant.ar((freq*2)+LFNoise0.ar(2), freq*4, freq) +
+					LFTri.ar((freq) + LFNoise0.ar(4)) +
+					LFTri.ar((freq*0.5) + LFNoise0.ar(4)) +
+					Klank.ar(`[[cf*0.5, cf, cf*2], nil, [1*rq,1,1*rq]], PinkNoise.ar(0.007));
+		sig = BPF.ar(sig, cf + (freq*env), rq);
 		sig = FreeVerb.ar(sig, 0.75, 0.6);
-    sig = sig.tanh.tanh * env * amp;
+		sig = sig.tanh.tanh * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-
-    sig = Pan2.ar(sig, pan);
+		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
-    Out.ar(out, sig);
+		Out.ar(out, sig);
 }).add;
 
 )
