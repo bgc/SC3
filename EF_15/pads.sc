@@ -8,7 +8,7 @@ SynthDef(\pad1, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, sig2, env;
+		var sig,sigP, sig2, env;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -20,7 +20,7 @@ SynthDef(\pad1, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -32,7 +32,7 @@ SynthDef(\pad2, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, env, sig2;
+		var sig,sigP, env, sig2;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -45,7 +45,7 @@ SynthDef(\pad2, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -64,7 +64,7 @@ SynthDef(\pad3, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, env, sig2;
+		var sig,sigP, env, sig2;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -76,7 +76,7 @@ SynthDef(\pad3, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -90,7 +90,7 @@ SynthDef(\pad4, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, env, sig2;
+		var sig,sigP, env, sig2;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -103,7 +103,7 @@ SynthDef(\pad4, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -115,7 +115,7 @@ SynthDef(\pad5, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, env, sig2;
+		var sig,sigP, env, sig2;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -128,7 +128,7 @@ SynthDef(\pad5, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -140,7 +140,7 @@ SynthDef(\pad6, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, env, sig2;
+		var sig,sigP, env, sig2;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -152,7 +152,7 @@ SynthDef(\pad6, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -167,7 +167,7 @@ SynthDef(\pad7, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, sig2, env;
+		var sig,sigP, sig2, env;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -183,7 +183,7 @@ SynthDef(\pad7, {
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -196,7 +196,7 @@ SynthDef(\pad8, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, sig2, env;
+		var sig,sigP, sig2, env;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -214,7 +214,7 @@ SynthDef(\pad8, {
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -229,7 +229,7 @@ SynthDef(\pad9, {
 		arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
 		freq=500, cf=1500, rq=0.2, amp=1,pan = 0, out=0;
 
-		var sig, sig2, env;
+		var sig,sigP, sig2, env;
 		env = EnvGen.kr(
 			Env([0,1,1,0], [atk,sus, rel], [c1, 0, c2]),
 			doneAction: 0);
@@ -244,7 +244,7 @@ SynthDef(\pad9, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 		DetectSilence.ar(sig, doneAction: 2);
-		sig = Pan2.ar(sig, pan);
+		sigP = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
