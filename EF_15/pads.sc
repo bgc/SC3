@@ -19,8 +19,8 @@ SynthDef(\pad1, {
 		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -44,8 +44,8 @@ SynthDef(\pad2, {
 		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -75,8 +75,8 @@ SynthDef(\pad3, {
 		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -102,8 +102,8 @@ SynthDef(\pad4, {
 		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -127,8 +127,8 @@ SynthDef(\pad5, {
 		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -151,8 +151,8 @@ SynthDef(\pad6, {
 		sig = sig * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -182,8 +182,8 @@ SynthDef(\pad7, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -213,8 +213,8 @@ SynthDef(\pad8, {
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
 
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
@@ -243,8 +243,8 @@ SynthDef(\pad9, {
 		sig = sig.tanh.tanh * env * amp;
 		sig2 = DelayL.ar(sig * -1, 0.2, 0.01);
 		sig = Limiter.ar(sig + sig2, 0.2, 0.01);
-		sig = Pan2.ar(sig, pan);
 		DetectSilence.ar(sig, doneAction: 2);
+		sig = Pan2.ar(sig, pan);
 		Out.ar(out, sig);
 }).add;
 
